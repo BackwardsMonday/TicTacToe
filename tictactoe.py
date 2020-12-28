@@ -1,3 +1,4 @@
+#! /usr/bin/python
 import pygame, sys
 from pygame.locals import *
 
@@ -76,19 +77,34 @@ while True:
                             winner = "O"
                 if winner:
                      fontObj = pygame.font.Font('freesansbold.ttf', 32)
-
-                     textSurfaceObj = fontObj.render('Hello world!', True, BLACK,)
-
+                     pygame.draw.line(DISPLAYSURF, WHITE,(0, squareWidth * 3 + scoreHeight/2),(squareWidth * 3, squareWidth * 3 + scoreHeight/2), scoreHeight)
+                     textSurfaceObj = fontObj.render("{} wins".format(winner), True, BLACK,)
                      textRectObj = textSurfaceObj.get_rect()
-
-                     textRectObj.center = (200, 150)
+                     textRectObj.center = (55 ,squareWidth * 3 + scoreHeight/2)
                      DISPLAYSURF.blit(textSurfaceObj, textRectObj)
+                     textSurfaceObj2 = fontObj.render("Press space for new game", True, BLACK,)
+                     textRectObj2 = textSurfaceObj2.get_rect()
+                     textRectObj2.center = (squareWidth * 3 - 210,squareWidth * 3 + scoreHeight/2)
+                     DISPLAYSURF.blit(textSurfaceObj2, textRectObj2)
                      print ("%s WINS"%(winner))
-                    #pygame.quit()
-                    #sys.exit()
-            #if event.type == KEY_DOWN:
-                #if event.key == K_BACKSPACE:
-                    #pass
+
+        if event.type == KEYDOWN:
+            if event.key == K_SPACE:
+                DISPLAYSURF.fill(WHITE)
+                pygame.draw.line(DISPLAYSURF, BLACK, (0, squareWidth), (3*squareWidth, squareWidth), 5)
+                pygame.draw.line(DISPLAYSURF, BLACK, (0, 2*squareWidth), (3*squareWidth, 2*squareWidth), 5)
+                pygame.draw.line(DISPLAYSURF, BLACK, (squareWidth, 0), (squareWidth, 3*squareWidth), 5)
+                pygame.draw.line(DISPLAYSURF, BLACK, (2*squareWidth, 0), (2*squareWidth, 3*squareWidth), 5)
+                winner = None
+                curentPlayer = "X"
+                board = [[0, 0, 0],[0, 0, 0],[0, 0, 0]]
+        if not winner:
+            fontObj3 = pygame.font.Font('freesansbold.ttf', 32)
+            pygame.draw.line(DISPLAYSURF, WHITE,(0, squareWidth * 3 + scoreHeight/2),(squareWidth * 3 , squareWidth * 3 + scoreHeight/2), scoreHeight)
+            textSurfaceObj3 = fontObj3.render("{} turn".format(curentPlayer), True, BLACK,)
+            textRectObj3 = textSurfaceObj3.get_rect()
+            textRectObj3.center = (55 ,squareWidth * 3 + scoreHeight/2)
+            DISPLAYSURF.blit(textSurfaceObj3, textRectObj3)
                     
         if event.type == QUIT:
             pygame.quit()
