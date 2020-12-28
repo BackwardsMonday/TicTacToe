@@ -23,6 +23,7 @@ oColor = BLUE
 board = [[0,0,0],[0,0,0],[0,0,0]]
 DISPLAYSURF.fill(WHITE)
 winner = None
+game = True
 
 pygame.draw.line(DISPLAYSURF, BLACK, (0, squareWidth), (3*squareWidth, squareWidth), 5)
 pygame.draw.line(DISPLAYSURF, BLACK, (0, 2*squareWidth), (3*squareWidth, 2*squareWidth), 5)
@@ -31,7 +32,7 @@ pygame.draw.line(DISPLAYSURF, BLACK, (2*squareWidth, 0), (2*squareWidth, 3*squar
 
 while True:
     for event in pygame.event.get():
-        if event.type == MOUSEBUTTONDOWN:
+        if game and event.type == MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             if pos[0] < squareWidth:
                 x = 0
@@ -76,17 +77,18 @@ while True:
                         else:
                             winner = "O"
                 if winner:
-                     fontObj = pygame.font.Font('freesansbold.ttf', 32)
-                     pygame.draw.line(DISPLAYSURF, WHITE,(0, squareWidth * 3 + scoreHeight/2),(squareWidth * 3, squareWidth * 3 + scoreHeight/2), scoreHeight)
-                     textSurfaceObj = fontObj.render("{} wins".format(winner), True, BLACK,)
-                     textRectObj = textSurfaceObj.get_rect()
-                     textRectObj.center = (55 ,squareWidth * 3 + scoreHeight/2)
-                     DISPLAYSURF.blit(textSurfaceObj, textRectObj)
-                     textSurfaceObj2 = fontObj.render("Press space for new game", True, BLACK,)
-                     textRectObj2 = textSurfaceObj2.get_rect()
-                     textRectObj2.center = (squareWidth * 3 - 210,squareWidth * 3 + scoreHeight/2)
-                     DISPLAYSURF.blit(textSurfaceObj2, textRectObj2)
-                     print ("%s WINS"%(winner))
+                    game = False
+                    fontObj = pygame.font.Font('freesansbold.ttf', 32)
+                    pygame.draw.line(DISPLAYSURF, WHITE,(0, squareWidth * 3 + scoreHeight/2),(squareWidth * 3, squareWidth * 3 + scoreHeight/2), scoreHeight)
+                    textSurfaceObj = fontObj.render("{} wins".format(winner), True, BLACK,)
+                    textRectObj = textSurfaceObj.get_rect()
+                    textRectObj.center = (55 ,squareWidth * 3 + scoreHeight/2)
+                    DISPLAYSURF.blit(textSurfaceObj, textRectObj)
+                    textSurfaceObj2 = fontObj.render("Press space for new game", True, BLACK,)
+                    textRectObj2 = textSurfaceObj2.get_rect()
+                    textRectObj2.center = (squareWidth * 3 - 210,squareWidth * 3 + scoreHeight/2)
+                    DISPLAYSURF.blit(textSurfaceObj2, textRectObj2)
+                    print ("%s WINS"%(winner))
 
         if event.type == KEYDOWN:
             if event.key == K_SPACE:
@@ -96,6 +98,7 @@ while True:
                 pygame.draw.line(DISPLAYSURF, BLACK, (squareWidth, 0), (squareWidth, 3*squareWidth), 5)
                 pygame.draw.line(DISPLAYSURF, BLACK, (2*squareWidth, 0), (2*squareWidth, 3*squareWidth), 5)
                 winner = None
+                game = True
                 curentPlayer = "X"
                 board = [[0, 0, 0],[0, 0, 0],[0, 0, 0]]
         if not winner:
